@@ -46,7 +46,7 @@ on emmc
 on init
     # double check the perms and set owner
 	chown root root /devlog
-	symlink /mnt/sdcard/ext_sd /sdcard2
+	#symlink /mnt/sdcard/ext_sd /sdcard2
 	
     # for Invense MPU3050
     chmod 0664 /dev/mpu
