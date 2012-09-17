@@ -24,6 +24,9 @@ f# Copyright (c) 2009-2011, Code Aurora Forum. All rights reserved.
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
+
+import /init.valentewx.usb.rc
+
 on emmc
     mkdir /system
     mkdir /data 0771 system system
@@ -217,6 +220,14 @@ on boot
     chown root sdcard_rw /sys/class/android_usb/f_mass_storage/lun0/opcode-e4/size
     chown root sdcard_rw /sys/class/android_usb/f_mass_storage/lun0/opcode-e4/update
 # [ADD START] 2012/01/17 KDDI : Android ICS
+
+
+# Discretix DRM change start
+    mkdir /data/DxDrm
+    mkdir /data/DxDrm/fuse
+    chmod 555 /data/DxDrm
+    mkdir /sdcard/download
+    copy /etc/DxDrmConfig_Server.txt /data/DxDrm/DxDrmConfig_Server.txt
 
 # HTC SSD Battery - BEGIN
 # for RIL to notify battery driver talking and network_search state
@@ -610,6 +621,10 @@ service ril-daemon1 /system/bin/rild -c 1
     user root
     disabled
     group radio cache inet misc audio sdcard_rw qcom_oncrpc diag
+
+# Discretix DRM change start
+service dx_drm_server /system/bin/DxDrmServerIpc -f -o allow_other /data/DxDrm/fuse
+    class main
 
 service profiler_daemon /system/bin/profiler_daemon
     user root
